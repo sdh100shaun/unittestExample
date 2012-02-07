@@ -7,27 +7,30 @@ class demo extends PHPUnit_Framework_Testcase
 
 	public function setUp()
 	{
-		$this->game = new RockPaperScissorsLizardSpock();
+		$this->game = new com\shaunhare\RockPaperScissorsLizardSpock();
 	}
 
 
 	public function testhandsEmptyAtStart()
 	{
-          $this->assertFalse(true);
-	}
+          $this->assertEmpty($this->game->hands);
+        }
 
 	/**
 	 * @test
 	 */
 	public function addPlayerWorks()
 	{
-
+            $this->game->addPlayer("sheldon");
+            $this->assertContains("sheldon",$this->game->players);
         }
 	/**
  	* @dataProvider players
 	*/
 	public function testCheckMoreThanOnePlayer($players)
 	{
+          $this->game->addPlayer($players);
+          $this->assertEquals(count($this->game->players),4);
 
         }
 
@@ -38,10 +41,10 @@ class demo extends PHPUnit_Framework_Testcase
 	{
 		$this->game->hands=$data;
 		$this->assertNotEmpty($this->game->hands);
-		$this->game->resetGame();
+                $this->game->resetGame();
+                $this->assertEmpty($this->game->hands);
 	}
 
-/*
 	public function testSheldonWins()
 	{
 		$this->game->addPlayer("howard");
@@ -53,7 +56,7 @@ class demo extends PHPUnit_Framework_Testcase
 		$this->game->play("spock","sheldon");
 		$this->game->score();
                 $this->game->getWinner();
-                $this->ExpectOutputString("sheldon");
+                $this->ExpectOutputString("sheldon wins");
 	}
 
 	public function tearDown()
@@ -76,7 +79,6 @@ class demo extends PHPUnit_Framework_Testcase
 
 	}
 
- */
 	public function provider()
 	    {
 	        return array(
